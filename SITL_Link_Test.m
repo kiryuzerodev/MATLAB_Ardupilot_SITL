@@ -21,15 +21,16 @@ while true
     % or also known as Magic Number
     % these Magic Numbers are hard coded by Ardupilot's dev team!
     Byte = uint8(Datagram.Data);
-    Magic_Number = typecast(Byte(1:2),uint16);
+    Magic_Number = typecast(Byte(1:2),"uint16");
     if Magic_Number ~= 18458 && Magic_Number ~= 29569
         fprintf("Nigga what the fuck are you trying to run?? Wrong Magic!");
+        continue
     end
 
     % Now we can actually use the data
-    rate  = typecast(b(3:4),"uint16");
-    count = typecast(b(5:8),"uint32");
-    pwm   = typecast(b(9:end),"uint16");
+    rate  = typecast(Byte(3:4),"uint16");
+    count = typecast(Byte(5:8),"uint32");
+    pwm   = typecast(Byte(9:end),"uint16");
 
     if GreetingMessage == true
         fprintf("******in a thick Chineese accent******")
@@ -48,7 +49,7 @@ while true
     % aware of how you are sending the data
 
     % Send the message
-    write(u, uint8([jsonencode(msg) newline]), Datagram.SenderAddress, Datagram.SenderPort);
+    write(UDP_Port_Object, uint8([jsonencode(msg) newline]), Datagram.SenderAddress, Datagram.SenderPort);
 
     if mod(count,400)==0
         fprintf("frame %d  PWM1-4: %s\n", count, mat2str(pwm(1:4)));
