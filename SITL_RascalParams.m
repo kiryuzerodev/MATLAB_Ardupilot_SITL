@@ -8,7 +8,6 @@ function p = SITL_RascalParams()
 %% Environment
 disp("Loading the Environment data....")
 p.g = 9.81;                 % m/s^2
-p.rho = 1.225;              % kg/m^3 (sea level, ISA)
 
 %% Mass and Inertia
 disp("Loading the Mass data....")
@@ -47,15 +46,25 @@ p.TAIL_MAX_STEER = deg2rad(360);
 
 %% Control Surfaces (limits in rad)
 disp("Loading the Control Surface data....")
-p.DE_MIN = -0.35; p.DE_MAX = 0.30;      % Elevator
-p.DA_MAX = 0.35;                        % Aileron (+/-)
-p.DR_MAX = 0.35;                        % Rudder (+/-)
+p.DE_MIN = -0.35; 
+p.DE_MAX = 0.30;      % Elevator
 
-%% Propulsion
+p.DA_MAX = 0.35;
+p.DA_MIN = -0.35;      % Aileron
+
+p.DR_MAX = 0.35;    
+p.DR_MIN = -0.35;    % Rudder
+
+%% Propulsion (JSBSim: Zenoah G-26A as 2207 W source + 18x8 prop)
 disp("Loading the Propulsion data....")
-p.PROP_DIA   = 18*0.0254;   % 18x8 prop, diameter (m)
-p.PROP_PITCH = 8*0.0254;    % pitch (m)
-% Engine (Zenoah G-26A) data to be added from its own file
+p.P_MAX    = 2207.27;            % W, engine power at full throttle
+p.PROP_DIA = 18*0.0254;          % m
+p.I_PROP   = 0.05*1.35582;       % kg*m^2 (JSBSim value; ~0.003 for a real prop)
+p.PROP_DIRECTION = 1;                % 1 = clockwise viewed from behind (JSBSim default)
+
+p.PROP_J  = [0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 1.0 1.4];
+p.PROP_CT = [0.0776 0.0744 0.0712 0.0655 0.0588 0.0518 0.0419 0.0318 0.0172 -0.0058 -0.0549];
+p.PROP_CP = [0.0902 0.0893 0.0880 0.0860 0.0810 0.0742 0.0681 0.0572 0.0467 0.0167 -0.0803];
 
 %% Aerodynamics (coefficients are per rad, from JSBSim)
 disp("Loading the Aero data....")
@@ -90,10 +99,23 @@ p.Cndr = -0.05;
 p.Cnda = -0.03;
 p.Cn0  =  0.0007;               % tail incidence
 
+%% Servos
+disp("Loading Servo data....")
+p.PWM_MIN  = 1100; 
+p.PWM_TRIM = 1500;
+p.PWM_MAX = 1900;   % Arduplane default values
+p.SERVO_TAU  = [0.05 0.05 0.05 0.05]';        % s, first-order lag for every channel. Thrust is the slowest
+p.SERVO_RATE = [10 10 10 7]';          % rad/s -> rate at which servo can move -> faster than this and gets saturated
+
+%% Home (Waterfly Warehouse) - must match the SITL launch location
+disp("Loading the Home data....")
+p.HOME_LAT = 12.886097191929261;   % deg
+p.HOME_LNG = 79.8657674964945;     % deg
+p.H_HOME   = 0.0;                  % m (MSL)
+p.HOME_HDG = deg2rad(0.0);         % rad, takeoff heading (north)
 %% Simulation
 disp("Loading the Simulation data....")
 p.DT = 1/400;                   % fixed step (s), match SITL frame rate
 p.SITL_PORT = 9002;
-
 disp("Rascal parameters loaded!")
 end
