@@ -7,7 +7,7 @@ function p = SITL_RascalParams()
 
 %% Environment
 disp("Loading the Environment data....")
-p.g = 9.81;                 % m/s^2
+p.g = 9.80665;                 % m/s^2
 
 %% Mass and Inertia
 disp("Loading the Mass data....")
