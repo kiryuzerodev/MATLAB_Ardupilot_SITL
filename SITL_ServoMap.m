@@ -18,9 +18,9 @@ end
 
 % If no value in the signal, then goes to trim value. But throttle gets
 % mapped to 0 directly
-for k = 1:length(PWM)
+for k = 1:4
     if PWM(k) == 0
-        PWM(k) = params.PWM_TRIM;
+        PWM(k) = params.PWM_TRIM(k);
     end
 end
 % Extract the PWM values
@@ -32,19 +32,38 @@ PWM_Rud = PWM(4);
 % Changed: Removed bullshit AI logic of all same PWM Trim
 % Logic is that, above trim is +1 and below is -1. Hence the first step is
 % to normalize it
-deltaAil = (PWM_Ail-params.PWM_TRIM(1))/(params.PWM_MAX(1)-params.PWM_MIN(1));
-deltaEle = (PWM_Ele-params.PWM_TRIM(2))/(params.PWM_MAX(2)-params.PWM_MIN(2));
-deltaRud = (PWM_Rud-params.PWM_TRIM(4))/(params.PWM_MAX(4)-params.PWM_MIN(4));
+% Fix: Only half is taken in old, this gives negative values as well
+% Fix: Removed else if and ensured exact trim value is handled  
 
+% Ailerons
+if PWM_Ail >= params.PWM_TRIM(1)
+    deltaAil = (PWM_Ail-params.PWM_TRIM(1))/(params.PWM_MAX(1)-params.PWM_TRIM(1));
+else
+    deltaAil = (PWM_Ail-params.PWM_TRIM(1))/(params.PWM_TRIM(1)-params.PWM_MIN(1));
+end
 if deltaAil > 1
     deltaAil = 1;
 elseif deltaAil < -1
     deltaAil = -1;
 end
+
+% Elevators
+if PWM_Ele >= params.PWM_TRIM(2)
+    deltaEle = (PWM_Ele-params.PWM_TRIM(2))/(params.PWM_MAX(2)-params.PWM_TRIM(2));
+else 
+    deltaEle = (PWM_Ele-params.PWM_TRIM(2))/(params.PWM_TRIM(2)-params.PWM_MIN(2));
+end
 if deltaEle > 1
     deltaEle = 1;
 elseif deltaEle < -1
     deltaEle = -1;
+end
+
+% Rudder
+if PWM_Rud >= params.PWM_TRIM(4)
+    deltaRud = (PWM_Rud-params.PWM_TRIM(4))/(params.PWM_MAX(4)-params.PWM_TRIM(4));
+elese
+    deltaRud = (PWM_Rud-params.PWM_TRIM(4))/(params.PWM_TRIM(4)-params.PWM_MIN(4));
 end
 if deltaRud > 1
     deltaRud = 1;
