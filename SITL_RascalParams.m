@@ -34,15 +34,15 @@ p.R_PROP = s2b([0.0254 0 0]);           % Propeller (thrust point)
 
 %% Landing Gear
 disp("Loading the Landing Gear data....")
-p.R_GEAR = [(s2b([0.8407 -0.3277 -0.3327]))', ...   % Left main
-            (s2b([0.8407  0.3277 -0.3327]))', ...   % Right main
+p.R_GEAR = [(s2b([0.8407 -0.3277 -0.3327]))'; ...   % Left main
+            (s2b([0.8407  0.3277 -0.3327]))'; ...   % Right main
             (s2b([1.7501  0      -0.1016]))'];      % Tail wheel
 p.GEAR_K = 7005.1;          % Spring coeff (N/m)
 p.GEAR_C = 1459.4;          % Damping coeff (N*s/m)
 p.MU_STATIC  = 0.8;
 p.MU_DYNAMIC = 0.5;
 p.MU_ROLLING = 0.1;
-p.TAIL_MAX_STEER = deg2rad(360);
+p.TAIL_MAX_STEER = deg2rad(30);
 
 %% Control Surfaces (limits in rad)
 disp("Loading the Control Surface data....")
