@@ -62,7 +62,7 @@ end
 % Rudder
 if PWM_Rud >= params.PWM_TRIM(4)
     deltaRud = (PWM_Rud-params.PWM_TRIM(4))/(params.PWM_MAX(4)-params.PWM_TRIM(4));
-elese
+else
     deltaRud = (PWM_Rud-params.PWM_TRIM(4))/(params.PWM_TRIM(4)-params.PWM_MIN(4));
 end
 if deltaRud > 1
