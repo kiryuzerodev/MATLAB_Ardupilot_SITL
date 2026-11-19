@@ -9,3 +9,8 @@
 <img width="1331" height="634" alt="image" src="https://github.com/user-attachments/assets/88795386-4a28-4f3e-9067-9b84d16baa8e" />
 <img width="1331" height="634" alt="image" src="https://github.com/user-attachments/assets/244ad48a-d0ed-406b-a0ba-9295f87ba92e" />
 
+## 19th November, 2026
+Working FBWA Model 
+<img width="1086" height="907" alt="image" src="https://github.com/user-attachments/assets/d27cd6de-fa64-47ba-bbfe-395c9b3f4e06" />
+
+
