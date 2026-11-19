@@ -101,9 +101,14 @@ p.Cn0  =  0.0007;               % tail incidence
 
 %% Servos
 disp("Loading Servo data....")
-p.PWM_MIN  = 1100; 
-p.PWM_TRIM = 1500;
-p.PWM_MAX = 1900;   % Arduplane default values
+% Changed: Removed bullshit AI logic of all same PWM Trim
+% Servo PWM ranges (per channel, same as ArduPilot SERVOn_MIN/TRIM/MAX)
+% aileron elevator throttle rudder (because Channels are assigned this way)
+p.PWM_MIN  = [1100; 1100; 1100; 1100];
+p.PWM_TRIM = [1500; 1500; 1100; 1500];   % note: for Throttle trim = min always
+p.PWM_MAX  = [1900; 1900; 1900; 1900]; 
+
+% Arduplane default values
 p.SERVO_TAU  = [0.05 0.05 0.05 0.05]';        % s, first-order lag for every channel. Thrust is the slowest
 p.SERVO_RATE = [10 10 10 7]';          % rad/s -> rate at which servo can move -> faster than this and gets saturated
 

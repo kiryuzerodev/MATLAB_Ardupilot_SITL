@@ -4,8 +4,17 @@ function [deltaCMD] = SITL_ServoMap(PWM,params)
 % signal and actual surface movement
 
 % Throttle should not go to trim value - map from 0 to 1
+% Changed: Removed bullshit AI logic of all same PWM Trim
 PWM_Thr = PWM(3);
-deltaThr = max(0,min(1,(PWM_Thr - params.PWM_MIN)/(params.PWM_MAX - params.PWM_MIN)));
+% Normalize
+deltaThr = (PWM_Thr - params.PWM_TRIM(3))/(params.PWM_MAX(3) - params.PWM_MIN(3));
+% Clamp using saturation logic
+if deltaThr > 1
+    deltaThr = 1;
+elseif deltaThr < 0
+    deltaThr = 0;
+end
+
 
 % If no value in the signal, then goes to trim value. But throttle gets
 % mapped to 0 directly
@@ -20,12 +29,34 @@ end
 PWM_Ail = PWM(1);
 PWM_Ele = PWM(2);
 PWM_Rud = PWM(4);
+% Changed: Removed bullshit AI logic of all same PWM Trim
+% Logic is that, above trim is +1 and below is -1. Hence the first step is
+% to normalize it
+deltaAil = (PWM_Ail-params.PWM_TRIM(1))/(params.PWM_MAX(1)-params.PWM_MIN(1));
+deltaEle = (PWM_Ele-params.PWM_TRIM(2))/(params.PWM_MAX(2)-params.PWM_MIN(2));
+deltaRud = (PWM_Rud-params.PWM_TRIM(4))/(params.PWM_MAX(4)-params.PWM_MIN(4));
 
-% Same logic but mapping from -1 to 1
-half = params.PWM_MAX - params.PWM_TRIM;
-Ail = max(-1,min(1,(PWM_Ail - params.PWM_TRIM) / half));
-Ele = max(-1,min(1,(PWM_Ele - params.PWM_TRIM) / half));
-Rud = max(-1,min(1,(PWM_Rud - params.PWM_TRIM) / half));
+if deltaAil > 1
+    deltaAil = 1;
+elseif deltaAil < -1
+    deltaAil = -1;
+end
+if deltaEle > 1
+    deltaEle = 1;
+elseif deltaEle < -1
+    deltaEle = -1;
+end
+if deltaRud > 1
+    deltaRud = 1;
+elseif deltaRud < -1
+    deltaRud = -1;
+end
+
+% Fix: Change signs for elevator and rudder
+Ail = deltaAil;
+Ele = -deltaEle;
+Rud = -deltaRud;
+
 
 % Now to map these to actual angles, you need to just multiply
 if Ail <= 0
