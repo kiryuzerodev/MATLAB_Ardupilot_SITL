@@ -45,22 +45,19 @@ p.MU_ROLLING = 0.1;
 p.TAIL_MAX_STEER = deg2rad(30);
 
 %% Contact points - these are crucial points we want to know the exact location of
-p.CONTACT_COUNT = 7; % SINGLE MOST IMPORTANT PARAMETER FOR CONTACT PHYSICS
-                     % UPDATE THIS FUCKER EVERYTIME YOU DEFINE OR REMOVE A
-                     % POINT
-
-
-p.CONTACT_POINTS = [s2b([0 0 0])... % Wing 1/4th MAC Location (any side)
-                    s2b([0 0 0])... % Tail 1/4th MAC Location (any side)
-                    s2b([0 0 0])... % Wing Tip Right
-                    s2b([0 0 0])... % Wing Tip Left
-                    s2b([0 0 0])... % Tail Horizontal Stabilizer Left tip
-                    s2b([0 0 0])... % Tail Horizontal Stabilizer Right tip
-                    s2b([0 0 0])... % Tail Vertical Stabilizer Tip
-                    s2b([0 0 0])... % Propeller Tip (nose)
-                    ];   
-p.CONTACT_STIFFNESS = 1000;
-p.CONTACT_DAMPING = 100;
+ 
+p.CONTACT_POINTS = [(s2b([0.9246  0 0.2540]))'; ... % Wing 1/4th MAC Location (any side)
+                    (s2b([2.0426  0 0.1516]))'; ... % Tail 1/4th MAC Location (any side)
+                    (s2b([0.9246  1.3970 0.2921]))'; ... % Wing Tip Right
+                    (s2b([0.9246 -1.3970 0.2921]))'; ... % Wing Tip Left
+                    (s2b([2.0426 -0.4636 0.1516]))'; ... % Tail Horizontal Stabilizer Left tip
+                    (s2b([2.0426  0.4636 0.1516]))'; ... % Tail Horizontal Stabilizer Right tip
+                    (s2b([2.0426  0 0.4374]))'; ... % Tail Vertical Stabilizer Tip
+                    (s2b([0.3786  0 -0.1270]))' ... % Propeller Tip (nose)
+                    ];
+p.CONTACT_COUNT = size(p.CONTACT_POINTS,1);
+p.CONTACT_STIFFNESS = 70000;
+p.CONTACT_DAMPING = 1500;
 %% Control Surfaces (limits in rad)
 disp("Loading the Control Surface data....")
 p.DE_MIN = -0.35; 
