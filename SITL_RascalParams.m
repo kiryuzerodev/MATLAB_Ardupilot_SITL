@@ -7,8 +7,7 @@ function p = SITL_RascalParams()
 
 %% Environment
 disp("Loading the Environment data....")
-p.g = 9.81;                 % m/s^2
-p.rho = 1.225;              % kg/m^3 (sea level, ISA)
+p.g = 9.80665;                 % m/s^2
 
 %% Mass and Inertia
 disp("Loading the Mass data....")
@@ -35,27 +34,51 @@ p.R_PROP = s2b([0.0254 0 0]);           % Propeller (thrust point)
 
 %% Landing Gear
 disp("Loading the Landing Gear data....")
-p.R_GEAR = [s2b([0.8407 -0.3277 -0.3327]), ...   % Left main
-            s2b([0.8407  0.3277 -0.3327]), ...   % Right main
-            s2b([1.7501  0      -0.1016])];      % Tail wheel
+p.R_GEAR = [(s2b([0.8407 -0.3277 -0.3327]))'; ...   % Left main
+            (s2b([0.8407  0.3277 -0.3327]))'; ...   % Right main
+            (s2b([1.7501  0      -0.1016]))'];      % Tail wheel
 p.GEAR_K = 7005.1;          % Spring coeff (N/m)
 p.GEAR_C = 1459.4;          % Damping coeff (N*s/m)
 p.MU_STATIC  = 0.8;
 p.MU_DYNAMIC = 0.5;
 p.MU_ROLLING = 0.1;
-p.TAIL_MAX_STEER = deg2rad(360);
+p.TAIL_MAX_STEER = deg2rad(30);
 
+%% Contact points - these are crucial points we want to know the exact location of
+ 
+p.CONTACT_POINTS = [(s2b([0.9246  0 0.2540]))'; ... % Wing 1/4th MAC Location (any side)
+                    (s2b([2.0426  0 0.1516]))'; ... % Tail 1/4th MAC Location (any side)
+                    (s2b([0.9246  1.3970 0.2921]))'; ... % Wing Tip Right
+                    (s2b([0.9246 -1.3970 0.2921]))'; ... % Wing Tip Left
+                    (s2b([2.0426 -0.4636 0.1516]))'; ... % Tail Horizontal Stabilizer Left tip
+                    (s2b([2.0426  0.4636 0.1516]))'; ... % Tail Horizontal Stabilizer Right tip
+                    (s2b([2.0426  0 0.4374]))'; ... % Tail Vertical Stabilizer Tip
+                    (s2b([0.3786  0 -0.1270]))' ... % Propeller Tip (nose)
+                    ];
+p.CONTACT_COUNT = size(p.CONTACT_POINTS,1);
+p.CONTACT_STIFFNESS = 70000;
+p.CONTACT_DAMPING = 1500;
 %% Control Surfaces (limits in rad)
 disp("Loading the Control Surface data....")
-p.DE_MIN = -0.35; p.DE_MAX = 0.30;      % Elevator
-p.DA_MAX = 0.35;                        % Aileron (+/-)
-p.DR_MAX = 0.35;                        % Rudder (+/-)
+p.DE_MIN = -0.35; 
+p.DE_MAX = 0.30;      % Elevator
 
-%% Propulsion
+p.DA_MAX = 0.35;
+p.DA_MIN = -0.35;      % Aileron
+
+p.DR_MAX = 0.35;    
+p.DR_MIN = -0.35;    % Rudder
+
+%% Propulsion (JSBSim: Zenoah G-26A as 2207 W source + 18x8 prop)
 disp("Loading the Propulsion data....")
-p.PROP_DIA   = 18*0.0254;   % 18x8 prop, diameter (m)
-p.PROP_PITCH = 8*0.0254;    % pitch (m)
-% Engine (Zenoah G-26A) data to be added from its own file
+p.P_MAX    = 2207.27;            % W, engine power at full throttle
+p.PROP_DIA = 18*0.0254;          % m
+p.I_PROP   = 0.05*1.35582;       % kg*m^2 (JSBSim value; ~0.003 for a real prop)
+p.PROP_DIRECTION = 1;                % 1 = clockwise viewed from behind (JSBSim default)
+
+p.PROP_J  = [0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 1.0 1.4];
+p.PROP_CT = [0.0776 0.0744 0.0712 0.0655 0.0588 0.0518 0.0419 0.0318 0.0172 -0.0058 -0.0549];
+p.PROP_CP = [0.0902 0.0893 0.0880 0.0860 0.0810 0.0742 0.0681 0.0572 0.0467 0.0167 -0.0803];
 
 %% Aerodynamics (coefficients are per rad, from JSBSim)
 disp("Loading the Aero data....")
@@ -90,10 +113,28 @@ p.Cndr = -0.05;
 p.Cnda = -0.03;
 p.Cn0  =  0.0007;               % tail incidence
 
+%% Servos
+disp("Loading Servo data....")
+% Changed: Removed bullshit AI logic of all same PWM Trim
+% Servo PWM ranges (per channel, same as ArduPilot SERVOn_MIN/TRIM/MAX)
+% aileron elevator throttle rudder (because Channels are assigned this way)
+p.PWM_MIN  = [1100; 1100; 1100; 1100];
+p.PWM_TRIM = [1500; 1500; 1100; 1500];   % note: for Throttle trim = min always
+p.PWM_MAX  = [1900; 1900; 1900; 1900]; 
+
+% Arduplane default values
+p.SERVO_TAU  = [0.05 0.05 0.05 0.05]';        % s, first-order lag for every channel. Thrust is the slowest
+p.SERVO_RATE = [10 10 10 7]';          % rad/s -> rate at which servo can move -> faster than this and gets saturated
+
+%% Home (Waterfly Warehouse) - must match the SITL launch location
+disp("Loading the Home data....")
+p.HOME_LAT = 12.886097191929261;   % deg
+p.HOME_LNG = 79.8657674964945;     % deg
+p.H_HOME   = 0.0;                  % m (MSL)
+p.HOME_HDG = deg2rad(0.0);         % rad, takeoff heading (north)
 %% Simulation
 disp("Loading the Simulation data....")
 p.DT = 1/400;                   % fixed step (s), match SITL frame rate
 p.SITL_PORT = 9002;
-
 disp("Rascal parameters loaded!")
 end
