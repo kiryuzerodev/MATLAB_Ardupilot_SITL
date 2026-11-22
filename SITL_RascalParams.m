@@ -126,6 +126,10 @@ p.PWM_MAX  = [1900; 1900; 1900; 1900];
 p.SERVO_TAU  = [0.05 0.05 0.05 0.05]';        % s, first-order lag for every channel. Thrust is the slowest
 p.SERVO_RATE = [10 10 10 7]';          % rad/s -> rate at which servo can move -> faster than this and gets saturated
 
+%% Rangefinder 
+disp("Loading Rangefinder/LiDAR/RADAlt data....")
+p.RNG_POS = s2b([0.9246 0 -0.0191]);
+p.RNG_MAX = 50;          % m, match RNGFND1_MAX in the param file
 %% Home (Waterfly Warehouse) - must match the SITL launch location
 disp("Loading the Home data....")
 p.HOME_LAT = 12.886097191929261;   % deg
