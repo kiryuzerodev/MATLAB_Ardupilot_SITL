@@ -136,5 +136,11 @@ p.HOME_HDG = deg2rad(0.0);         % rad, takeoff heading (north)
 disp("Loading the Simulation data....")
 p.DT = 1/400;                   % fixed step (s), match SITL frame rate
 p.SITL_PORT = 9002;
+
+%% Control select - which channels YOUR controller owns
+% []    = ArduPilot flies everything (option 1)
+% [2]   = you own the elevator (option 4a / A)
+% [2 3] = elevator + throttle (option 4b)
+p.CTRL_MASK = [];
 disp("Rascal parameters loaded!")
 end
