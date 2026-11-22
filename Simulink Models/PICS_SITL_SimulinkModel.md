@@ -19,10 +19,6 @@ Working FBWA Model
 <img width="582" height="316" alt="image" src="https://github.com/user-attachments/assets/fe4a50ca-2a17-47c7-83b1-76f63f272fe5" />
 <img width="1327" height="654" alt="image" src="https://github.com/user-attachments/assets/36a61d02-8f20-4c30-ac18-7607d3c3be0e" />
 
-
-
-
-
-
-
-
+## 22nd November, 2026
+<img width="1300" height="637" alt="image" src="https://github.com/user-attachments/assets/60a23dba-4314-42d8-8288-0b3352717b59" />
+<img width="1321" height="639" alt="image" src="https://github.com/user-attachments/assets/bd050fab-57bc-4d5f-9321-d0d7eda2a287" />
