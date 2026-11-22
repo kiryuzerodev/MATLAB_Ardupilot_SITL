@@ -22,3 +22,9 @@ Working FBWA Model
 ## 22nd November, 2026
 <img width="1300" height="637" alt="image" src="https://github.com/user-attachments/assets/60a23dba-4314-42d8-8288-0b3352717b59" />
 <img width="1321" height="639" alt="image" src="https://github.com/user-attachments/assets/bd050fab-57bc-4d5f-9321-d0d7eda2a287" />
+First SITL run with Python!
+<img width="1766" height="561" alt="image" src="https://github.com/user-attachments/assets/96b87cc5-9059-4bef-a9a7-20f1faf18ad4" />
+MAVLink working as intended
+<img width="1458" height="835" alt="Screenshot from 2026-11-22 19-50-37" src="https://github.com/user-attachments/assets/e533ab38-4216-4677-a051-a2cb970e74fe" />
+<img width="697" height="552" alt="image" src="https://github.com/user-attachments/assets/865bf1e2-1286-4fe7-af6c-d0b23da8ae63" />
+
