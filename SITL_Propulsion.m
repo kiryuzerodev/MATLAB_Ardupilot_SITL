@@ -7,16 +7,20 @@ D = params.PROP_DIA;
 deltaT = delta(4);
 
 % To protect against Advance Ratio going to infinity
-n = omega*2*pi; % This in revolutions per second
+n = max(omega,1)/(2*pi); % This in revolutions per second
 J = Va/(n*D);
 % Saturation to use least or max value
-J = min(max(params.PROP_J(end),J),params.PROP_J(1));
-
+% Change: Got rid of min max as it was misleading and hard to read
+if J < params.PROP_J(1)
+    J = params.PROP_J(1);
+elseif J > params.PROP_J(end)
+    J = params.PROP_J(end);
+end
 % Propeller - Thrust and Torque 
 CT = interp1(params.PROP_J, params.PROP_CT, J);
 CP = interp1(params.PROP_J, params.PROP_CP, J);
-T = rho*n^2*D^4; % Thrust
-P = rho*n^3*D^5; % Power
+T = CT*rho*n^2*D^4; % Thrust
+P = CP*rho*n^3*D^5; % Power
 
 % Having power, we can get torque as torque*speed
 Q_prop = P/(2*pi*n);
