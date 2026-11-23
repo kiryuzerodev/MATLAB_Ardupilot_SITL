@@ -38,4 +38,8 @@ end
 F_prop = [T; 0 ; 0]; 
 M_prop = [-params.PROP_DIRECTION*Q_prop; 0; 0]; % Because torque is opp dir of spin
 M_prop = M_prop + cross(params.R_PROP,F_prop);
+
+% New: Change if we want engines on or off - glide tests
+F_prop = params.P_PROP_ON*F_prop;
+M_prop = params.P_PROP_ON*M_prop;
 end

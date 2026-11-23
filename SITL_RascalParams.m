@@ -71,6 +71,8 @@ p.DR_MIN = -0.35;    % Rudder
 
 %% Propulsion (JSBSim: Zenoah G-26A as 2207 W source + 18x8 prop)
 disp("Loading the Propulsion data....")
+% New: Switch off engines
+p.P_PROP_ON = 1; % 0 or 1 based on if we want to switch off engines 
 p.P_MAX    = 2207.27;            % W, engine power at full throttle
 p.PROP_DIA = 18*0.0254;          % m
 p.I_PROP   = 0.05*1.35582;       % kg*m^2 (JSBSim value; ~0.003 for a real prop)
