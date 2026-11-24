@@ -75,7 +75,7 @@ disp("Loading the Propulsion data....")
 p.P_PROP_ON = 1; % 0 or 1 based on if we want to switch off engines 
 p.P_MAX    = 2207.27;            % W, engine power at full throttle
 p.PROP_DIA = 18*0.0254;          % m
-p.I_PROP   = 0.05*1.35582;       % kg*m^2 (JSBSim value; ~0.003 for a real prop)
+p.I_PROP   = 0.000085*1.35582;       % kg*m^2 (JSBSim value; ~0.003 for a real prop)
 p.PROP_DIRECTION = 1;                % 1 = clockwise viewed from behind (JSBSim default)
 
 p.PROP_J  = [0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 1.0 1.4];
@@ -105,7 +105,7 @@ p.Clda =  0.13;                 % Mach 0 value (Mach effect negligible here)
 p.Cldr =  0.01;
 % Pitch
 p.Cma   = -0.5;
-p.Cmde  = -0.5;                 % Mach 0 value
+p.Cmde  = -1.2;                 % Mach 0 value
 p.Cmq   = -12.0;
 p.Cmadot = -7.0;
 % Yaw
@@ -113,7 +113,7 @@ p.Cnb  =  0.12;
 p.Cnr  = -0.15;
 p.Cndr = -0.05;
 p.Cnda = -0.03;
-p.Cn0  =  0.0007;               % tail incidence
+p.Cn0  =  0.00;               % tail incidence
 
 %% Servos
 disp("Loading Servo data....")
