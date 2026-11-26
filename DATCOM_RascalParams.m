@@ -188,7 +188,9 @@ p.dCn_DA = [
     -8.643e-3 -4.935e-3 0  4.935e-3  8.643e-3
     -1.226e-2 -6.998e-3 0  6.998e-3  1.226e-2];
 
-% Rudder: Datcom was NOT run for a rudder - no data in the thesis
+% Rudder: Datcom was NOT run for a rudder -> old JSBSim values (per rad)
+p.Cldr =  0.01;   % Rolling moment due to rudder
+p.Cndr = -0.05;   % Yawing moment due to rudder
 
 %% Servos
 disp("Loading Servo data....")
